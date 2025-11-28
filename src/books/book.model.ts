@@ -1,14 +1,14 @@
 import {Schema, model} from "mongoose"
 
 type book = {
-    //nombre, genero, fecha de publicación, casa editorial, autor, disponibilidad
     name: string;
-    codigo: string;
-    gender: string;
+    code: string;
+    genre: string;
     publication_date: string;
-    publishing_house: string;
+    publisher: string;
     author: string;
     isDeleted: boolean;
+    isAvaible: boolean;
 }
 
 const bookSchema = new Schema<book> ({
@@ -17,13 +17,13 @@ const bookSchema = new Schema<book> ({
         required: true,
         trim: true,
     },
-    codigo: {
+    code: {
         type: String,
         required: true,
         unique: true,
         trim: true,
     },
-    gender: {
+    genre: {
         type: String,
         required: true,
         trim: true,
@@ -33,7 +33,7 @@ const bookSchema = new Schema<book> ({
         required: true,
         trim: true,
     },
-    publishing_house: {
+    publisher: {
         type: String,
         required: true,
         trim: true,
@@ -46,5 +46,11 @@ const bookSchema = new Schema<book> ({
     isDeleted: {
         type: Boolean,
         default: false,
+    },
+    isAvaible: {
+        type: Boolean,
+        default: true,
     }
 })
+
+const bookModel = model<book>("Book", bookSchema)

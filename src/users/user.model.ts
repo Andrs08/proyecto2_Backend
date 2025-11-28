@@ -7,7 +7,7 @@ type UserType = {
   email: string;
   document_number: string;
   password: string;
-  //permissions: [];
+  permissions: [string];
   isDeleted: boolean;
 };
 
@@ -40,10 +40,10 @@ const UserSchema = new Schema<UserType>({
       required: true,
     },
 
-    /*permissions: {
+    permissions: {
       type: [String],
       default: [],
-    },*/
+    },
 
     isDeleted: {
       type: Boolean,

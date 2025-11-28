@@ -1,10 +1,20 @@
-import {UserModel} from "../user.model";
-import {UserType} from "../user.model";
+import { UserModel } from "../user.model";
+import { returnUserDto } from "../user.types";
 
-async function readUsersAction (): Promise<UserType[]> {
-    const results = await UserModel.find();
+async function readUserAction(document: string): Promise<returnUserDto> {
+  const user = await UserModel.findOne({ document_number: document, isDeleted: false });
 
-    return results;
+  if (!user) {
+    throw new Error("Usuario no encontrado.");
+  }
+
+  return {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    document_number: user.document_number,
+    permissions: user.permissions,
+  };
 }
 
-export default readUsersAction;
+export default readUserAction;

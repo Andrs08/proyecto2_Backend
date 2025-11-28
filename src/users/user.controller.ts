@@ -1,9 +1,17 @@
 import readUsersAction from "./actions/read.user.action"
-import {UserType} from "./user.model"
+import createUserAction from "./actions/create.user.action"
+import {createUserDto ,returnUserDto} from "./user.types"
 
-async function readUsers(): Promise<UserType[]> {
-    const results = await readUsersAction();
-    return results;
+async function readUser(id: string): Promise<returnUserDto> {
+    const user = await readUsersAction(id);
+    return user;
 }
 
-export {readUsers}
+async function createUser (user: createUserDto): Promise<returnUserDto> {
+    const result = await createUserAction(user);
+    return result;
+}
+
+
+
+export {readUser, createUser}
