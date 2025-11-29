@@ -1,6 +1,8 @@
 import {Router, Request, Response} from "express"
 import { createBookController, getBookController, deleteBookController, updateBookController, readBooksController } from "./book.controller"
 import {authMiddleware} from "../middlewares/auth.middleware"
+import { PERMISSIONS } from "../permissions/permissions";
+import { requirePermission } from "../middlewares/permissions.middleware";
 
 const bookRoutes = Router()
 
@@ -13,7 +15,7 @@ async function createBook (req: Request, res: Response) {
     });
 }
 
-bookRoutes.post("/", authMiddleware, createBook);
+bookRoutes.post("/", authMiddleware,requirePermission(PERMISSIONS.CREATE_BOOK), createBook);
 
 async function getBook (req: Request, res: Response) {
     const {code} = req.params;
@@ -28,7 +30,6 @@ async function getBook (req: Request, res: Response) {
 bookRoutes.get("/:code", getBook);
 
 async function deleteBook (req: Request, res: Response) {
-    //const perm = req.authUser?.permissions
     const {code} = req.params;
     console.log(code);
     const result = await deleteBookController(code);
@@ -37,7 +38,7 @@ async function deleteBook (req: Request, res: Response) {
     });
 }
 
-bookRoutes.delete("/:code", authMiddleware, deleteBook);
+bookRoutes.delete("/:code", authMiddleware,requirePermission(PERMISSIONS.DELETE_BOOK), deleteBook);
 
 async function updateBook(req: Request, res:Response) {
     const {id} = req.params;
@@ -50,7 +51,7 @@ async function updateBook(req: Request, res:Response) {
     });
 }
 
-bookRoutes.put("/:id", authMiddleware, updateBook);
+bookRoutes.put("/:id", authMiddleware, requirePermission(PERMISSIONS.UPDATE_BOOK),updateBook);
 
 async function readBooks(req: Request, res: Response) {
     const filtros = req.query;
