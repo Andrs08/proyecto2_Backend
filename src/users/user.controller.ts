@@ -1,6 +1,9 @@
 import readUsersAction from "./actions/read.user.action"
 import createUserAction from "./actions/create.user.action"
-import {createUserDto ,returnUserDto} from "./user.types"
+import {createUserDto ,returnUserDto, loginUserDto, loginResponseDto, updateUserDto} from "./user.types"
+import loginUserAction from "./actions/login.user.action"
+import deleteUserAction from "./actions/delete.user.action"
+import updateUserAction from "./actions/update.user.action"
 
 async function readUser(id: string): Promise<returnUserDto> {
     const user = await readUsersAction(id);
@@ -12,6 +15,21 @@ async function createUser (user: createUserDto): Promise<returnUserDto> {
     return result;
 }
 
+async function loginController (user: loginUserDto): Promise<string> {
+    const result = await loginUserAction(user);
+    return result;
+}
 
+async function deleteUserController (id: string): Promise <returnUserDto> {
+    const user_deleted = await deleteUserAction(id);
 
-export {readUser, createUser}
+    return user_deleted;
+}
+
+async function updateUserController (id: string, user: updateUserDto): Promise <returnUserDto> {
+    const user_updated = await updateUserAction(id, user);
+
+    return user_updated;
+}
+
+export {readUser, createUser, loginController, deleteUserController, updateUserController};

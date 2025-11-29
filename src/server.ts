@@ -4,22 +4,25 @@ import userRoutes from "./users/user.routes"
 import cors from "cors"
 import connectDB from "../database/client"
 import dotenv from "dotenv";
+import bookRoutes from "./books/book.routes"
+
 dotenv.config();
 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
 const Server = "/biblioteca"
-console.log(Server + "/users")
-app.use(Server + "/users" , userRoutes)
+
+app.use(Server + "/users" , userRoutes);
 
 function routeNotFound (req: Request, res: Response) {
     res.status(404).json({
         error: "Ruta no encontrada"
     });
 }
+
+app.use(Server+"/books", bookRoutes);
 
 app.use(routeNotFound);
 

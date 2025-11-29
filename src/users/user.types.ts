@@ -23,5 +23,12 @@ type loginResponseDto = {
     user: returnUserDto;
 }
 
+type updateUserDto = {
+  name?: string;
+  email?: string;
+  password?: string;
+};
 
-export {createUserDto, returnUserDto, loginUserDto, loginResponseDto}
+
+
+export {createUserDto, returnUserDto, loginUserDto, loginResponseDto, updateUserDto}

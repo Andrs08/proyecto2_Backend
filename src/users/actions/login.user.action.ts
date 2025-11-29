@@ -3,7 +3,7 @@ import { compare } from "../../utils/encrypt";
 import { generateToken } from "../../utils/jwt";
 import { loginUserDto, loginResponseDto } from "../user.types";
 
-async function loginUserAction(input: loginUserDto): Promise<loginResponseDto> {
+async function loginUserAction(input: loginUserDto): Promise<any> {
   const { email, password } = input;
 
   if (!email || !password) {
@@ -28,14 +28,7 @@ async function loginUserAction(input: loginUserDto): Promise<loginResponseDto> {
   });
 
   return {
-    token,
-    user: {
-      id: user._id.toString(),
-      name: user.name,
-      email: user.email,
-      document_number: user.document_number,
-      permissions: user.permissions,
-    },
+    token
   };
 }
 

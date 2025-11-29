@@ -25,22 +25,18 @@ const bookSchema = new Schema<book> ({
     },
     genre: {
         type: String,
-        required: true,
         trim: true,
     },
     publication_date: {
         type: String,
-        required: true,
         trim: true,
     },
     publisher: {
         type: String,
-        required: true,
         trim: true,
     },
     author: {
         type: String,
-        required: true,
         trim: true,
     }, 
     isDeleted: {
@@ -53,4 +49,6 @@ const bookSchema = new Schema<book> ({
     }
 })
 
-const bookModel = model<book>("Book", bookSchema)
+const bookModel = model<book>("Book", bookSchema);
+
+export {bookModel};

@@ -1,10 +1,10 @@
 import { UserModel } from "../user.model";
 import { returnUserDto } from "../user.types";
 
-async function readUserAction(document: string): Promise<returnUserDto> {
-  const user = await UserModel.findOne({ document_number: document, isDeleted: false });
+async function readUserAction(id: string): Promise<returnUserDto> {
+  const user = await UserModel.findById(id);
 
-  if (!user) {
+  if (!user || user.isDeleted) {
     throw new Error("Usuario no encontrado.");
   }
 
