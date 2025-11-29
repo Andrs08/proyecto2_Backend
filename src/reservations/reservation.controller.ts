@@ -25,4 +25,4 @@ async function getUserHistoryController (book_id: string): Promise <ReturnReserv
 }
 
 
-export {createReservationController};
+export {createReservationController, getBookHistoryController, getUserHistoryController};

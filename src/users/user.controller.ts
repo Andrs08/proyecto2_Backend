@@ -4,6 +4,7 @@ import {createUserDto ,returnUserDto, loginUserDto, loginResponseDto, updateUser
 import loginUserAction from "./actions/login.user.action"
 import deleteUserAction from "./actions/delete.user.action"
 import updateUserAction from "./actions/update.user.action"
+import { updatePermissionsAction } from "./actions/update.permissions.action";
 
 async function readUser(id: string): Promise<returnUserDto> {
     const user = await readUsersAction(id);
@@ -32,4 +33,8 @@ async function updateUserController (id: string, user: updateUserDto): Promise <
     return user_updated;
 }
 
-export {readUser, createUser, loginController, deleteUserController, updateUserController};
+async function updateUserPermissionsController(id: string, permissions: string[]) {
+    return await updatePermissionsAction(id, permissions);
+}
+
+export {readUser, createUser, loginController, deleteUserController, updateUserController, updateUserPermissionsController};

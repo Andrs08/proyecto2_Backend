@@ -7,7 +7,7 @@ type UserType = {
   email: string;
   document_number: string;
   password: string;
-  permissions: [string];
+  permissions: string[];
   isDeleted: boolean;
 };
 

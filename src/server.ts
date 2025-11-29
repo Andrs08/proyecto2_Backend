@@ -5,6 +5,9 @@ import cors from "cors"
 import connectDB from "../database/client"
 import dotenv from "dotenv";
 import bookRoutes from "./books/book.routes"
+import reservationRoutes from "./reservations/reservation.routes"
+import { createDefaultAdmin } from "./setup/createAdmin";
+
 
 dotenv.config();
 
@@ -24,10 +27,14 @@ function routeNotFound (req: Request, res: Response) {
 
 app.use(Server+"/books", bookRoutes);
 
+app.use(Server+"/reservations", reservationRoutes)
+
 app.use(routeNotFound);
 
 try {
-    connectDB(process.env.ConnectionString!);
+    connectDB(process.env.ConnectionString!).then(() => {
+    createDefaultAdmin();
+});
 } catch (err) {
     if (!process.env.ConnectionString) {
   throw new Error("Missing environment variable: ConnectionString");

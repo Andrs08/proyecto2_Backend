@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
-import {readUser, createUser, loginController,  deleteUserController, updateUserController} from "./user.controller"
+import {readUser, createUser, loginController,  deleteUserController, updateUserController,updateUserPermissionsController} from "./user.controller"
 import {authMiddleware} from "../middlewares/auth.middleware"
+import { PERMISSIONS } from "../permissions/permissions";
+import { requirePermission } from "../middlewares/permissions.middleware";
 
 const userRoutes = Router();
 
@@ -15,7 +17,7 @@ async function getUser(req: Request, res:Response) {
 
 }
 
-userRoutes.get("/me/:", authMiddleware, getUser)
+userRoutes.get("/me", authMiddleware, getUser)
 
 async function postUser(req: Request, res: Response) {
     const result = await createUser(req.body)
@@ -63,5 +65,23 @@ async function updateUser(req: Request, res: Response) {
 }
 
 userRoutes.put("/", authMiddleware, updateUser);
+
+
+userRoutes.patch(
+  "/:id/permissions",
+  authMiddleware,
+  requirePermission(PERMISSIONS.MANAGE_PERMISSIONS),
+  async (req, res) => {
+    const { id } = req.params;
+    const { permissions } = req.body;
+
+    const updated = await updateUserPermissionsController(id, permissions);
+
+    res.status(200).json({
+      message: "Permisos actualizados correctamente",
+      usuario: updated
+    });
+  }
+);
 
 export default userRoutes; 

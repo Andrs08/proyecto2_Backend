@@ -1,7 +1,7 @@
 type CreateReservationDto = {
   userId: string;
   bookId: string;
-  return_date: Date;
+  return_date: string | Date
 };
 
 type ReturnReservationDto = {

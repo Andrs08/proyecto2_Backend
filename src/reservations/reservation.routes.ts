@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import {createReservationController} from "./reservation.controller"
+import {createReservationController, getBookHistoryController, getUserHistoryController} from "./reservation.controller"
 import { authMiddleware } from "../middlewares/auth.middleware";
 
 const reservationRoutes = Router();
@@ -16,3 +16,30 @@ async function createReservation (req: Request, res: Response) {
 }
 
 reservationRoutes.post("/", authMiddleware, createReservation);
+
+async function getBookHistory(req: Request, res: Response) {
+    const {book_id} = req.params;
+    const bookHistory = await getBookHistoryController(book_id);
+
+    res.status(200).json({
+        message: "Historia de reserva de libro retornada correctamente",
+        historia: bookHistory
+    })
+}
+
+reservationRoutes.get("/book_history/:book_id", authMiddleware, getBookHistory)
+
+async function getUserHistory(req: Request, res: Response) {
+    const user_id = req.authUser!.id;
+    const userHistory = await getUserHistoryController(user_id);
+
+    res.status(200).json({
+        message: "Historia de reserva del usuario retornada correctamente",
+        historia: userHistory
+    })
+}
+
+reservationRoutes.get("/user_history", authMiddleware, getUserHistory)
+
+export default reservationRoutes;
+

@@ -1,5 +1,5 @@
 import {Router, Request, Response} from "express"
-import { createBookController, getBookController, deleteBookController, updateBookController } from "./book.controller"
+import { createBookController, getBookController, deleteBookController, updateBookController, readBooksController } from "./book.controller"
 import {authMiddleware} from "../middlewares/auth.middleware"
 
 const bookRoutes = Router()
@@ -52,5 +52,16 @@ async function updateBook(req: Request, res:Response) {
 
 bookRoutes.put("/:id", authMiddleware, updateBook);
 
+async function readBooks(req: Request, res: Response) {
+    const filtros = req.query;
+    const result = await readBooksController(filtros);
+
+    res.status(200).json ({
+        message: "Libros que cumpeln con los filtros",
+        libros: result
+    });
+}
+
+bookRoutes.get("/filter", readBooks);
 
 export default bookRoutes;

@@ -23,4 +23,17 @@ type updateBookDto = {
     isAvaible?: boolean;
 }
 
-export {createBookDto, returnBookDto, updateBookDto}
+type returnListBookDto = {
+  books: {
+    name: string;
+  }[];
+  pagination: {
+    page: number;
+    maxPage: number;
+    perPage: number;
+    total: number;
+  };
+};
+
+
+export {createBookDto, returnBookDto, updateBookDto, returnListBookDto}
